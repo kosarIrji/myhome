@@ -1,26 +1,146 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@import "leaflet/dist/leaflet.css";
+
+@import "../styles/region-glow.css";
+       
+@import "../styles/modal.css";
+
+/* small app-level styles */
+html,
+body,
+#__next {
+  height: 100%;
+  direction: rtl;
+  text-align: right;
+  font-family: "Modam";
+ 
+}
+.leaflet-container {
+  background: transparent !important;
+
+}
+/* کانتینر شیشه‌ای نقشه */
+.glass-map-container {
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.10) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(108, 92, 231, 0.14) 0%,
+      rgba(74, 144, 226, 0.14) 100%
+    );
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 8px 32px 0 rgba(31, 38, 135, 0.37),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  overflow: hidden;
 }
 
-@theme inline {
+/* تاکید نئونی روی قاب (در صورت نیاز) */
+.glass-map-neon {
+  box-shadow:
+    0 0 10px rgba(59, 130, 246, 0.5),
+    inset 0 0 10px rgba(59, 130, 246, 0.12);
+}
+
+/* نقاط/لیبل‌های درخشان */
+.glow-marker {
+  filter: drop-shadow(0 0 8px rgba(74, 144, 226, 0.7));
+}
+.hominex-bg {
+  background:
+    radial-gradient(
+      circle at 30% 40%,
+      rgba(0, 246, 255, 0.18),
+      rgba(11, 18, 32, 1) 60%
+    ),
+    radial-gradient(
+      circle at 70% 80%,
+      rgba(255, 223, 0, 0.12),
+      rgba(11, 18, 32, 1) 70%
+    ),
+    linear-gradient(
+      160deg,
+      #0B1220 0%,
+      #0D1A2C 40%,
+      #0B1220 100%
+    );
+}
+
+
+@font-face {
+  font-family: "Modam";
+  src: url("/fonts/modam/Modam-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Modam";
+  src: url("/fonts/modam/Modam-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Modam";
+  src: url("/fonts/modam/Modam-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Modam";
+  src: url("/fonts/modam/Modam-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Modam";
+  src: url("/fonts/modam/Modam-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Modam";
+  src: url("/fonts/modam/Modam-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Modam";
+  src: url("/fonts/modam/Modam-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* roots */
+:root {
+  --background: #4c4b4b;
+  --foreground: white;
+  --box: #232323;
+  --button-background: #000000;
+  --header-background: #303030;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  --BoxColor: var(--box);
 }

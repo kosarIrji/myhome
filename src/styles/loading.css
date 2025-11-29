@@ -1,0 +1,45 @@
+/* Loader animations */
+
+@keyframes spin-slow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  .animate-spin-slow {
+    animation: spin-slow 3s linear infinite;
+  }
+  
+  @keyframes glow-pulse {
+    0% { opacity: 0.55; transform: scale(0.95); }
+    50% { opacity: 1; transform: scale(1.05); }
+    100% { opacity: 0.55; transform: scale(0.95); }
+  }
+  .animate-glow-pulse {
+    animation: glow-pulse 3s ease-in-out infinite;
+  }
+  
+  @keyframes glow-pulse-rev {
+    0% { opacity: 0.25; transform: scale(1.05); }
+    50% { opacity: 0.8; transform: scale(0.9); }
+    100% { opacity: 0.25; transform: scale(1.05); }
+  }
+  .animate-glow-pulse-rev {
+    animation: glow-pulse-rev 4s ease-in-out infinite;
+  }
+  
+  @keyframes border-pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+  }
+  .animate-border-pulse {
+    animation: border-pulse 1.8s ease-in-out infinite;
+  }
+  
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.8s ease-out forwards;
+  }
+  

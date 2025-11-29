@@ -1,0 +1,42 @@
+/* ==== مودال Slide-Up + Fade-In ===== */
+@keyframes modal-appear {
+    0% { opacity: 0; transform: translateY(40px) scale(0.96); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .animate-modal-appear {
+    animation: modal-appear 0.45s ease-out forwards;
+  }
+  
+  /* ==== استیکرها (Float) ===== */
+  @keyframes pill-float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0); }
+  }
+  .animate-pill-float {
+    animation: pill-float 6s ease-in-out infinite;
+  }
+  
+  /* ==== Gradient Shift ===== */
+  @keyframes gradient-shift {
+    0% { transform: scale(1) translateX(0); }
+    50% { transform: scale(1.05) translateX(-6%); }
+    100% { transform: scale(1.02) translateX(3%); }
+  }
+  .animate-gradient-shift {
+    animation: gradient-shift 8s infinite alternate ease-in-out;
+  }
+  .animate-gradient-shift-rev {
+    animation: gradient-shift 8s infinite alternate-reverse ease-in-out;
+  }
+  
+  /* ==== CTA Pulse ===== */
+  @keyframes cta-pulse {
+    0% { transform: scale(1); box-shadow: 0 0 15px rgba(245,158,11,0.65); }
+    50% { transform: scale(1.03); box-shadow: 0 0 25px rgba(245,158,11,0.9); }
+    100% { transform: scale(1); box-shadow: 0 0 15px rgba(245,158,11,0.65); }
+  }
+  .animate-cta-pulse {
+    animation: cta-pulse 2.2s infinite ease-in-out;
+  }
+  

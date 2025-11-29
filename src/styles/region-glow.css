@@ -1,0 +1,42 @@
+/* ---------------- Pixel Perfect Hominex Map Theme ---------------- */
+.pixel-label {
+  font-family: "Modam";
+  font-size: 16px;
+  
+  font-weight: 500; /* خیلی بولدتر */
+  color: #ffffff; /* سفید خالص */
+
+}
+
+.leaflet-interactive {
+  filter: drop-shadow(0 0 8px rgba(255, 223, 0, 0.55)) /* زرد */
+    drop-shadow(0 0 14px rgba(255, 200, 0, 0.4)) /* طلایی */
+    drop-shadow(0 0 20px rgba(255, 255, 255, 0.4)); /* سفید */
+}
+
+/* Vignette تاریک مثل تصویر */
+.map-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.55) 75%,
+    rgba(0, 0, 0, 0.75) 100%
+  );
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* Spotlight مانند عکس روی محله مرکزی */
+.map-spotlight {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 255, 255, 0.16),
+    rgba(0, 0, 0, 0) 60%
+  );
+  pointer-events: none;
+  z-index: 998;
+}
