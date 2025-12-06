@@ -7,7 +7,7 @@ module.exports = {
     theme: {
       extend: {
         fontFamily: {
-          vazir: ["Vazir", "sans-serif"], // نام فونتی که در public/fonts گذاشتی
+          vazir: ["Modam", "sans-serif"], // نام فونتی که در public/fonts گذاشتی
         },
       },
     },

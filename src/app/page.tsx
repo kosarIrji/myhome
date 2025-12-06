@@ -94,7 +94,7 @@ export default function RegionSelectionPage() {
         };
 
         setRegions(geojson);
-
+        
         // فقط محله‌هایی که در config/mahallat تعریف شده‌اند، کلیک‌پذیر باشند
         const ids = geojson.features
           .filter((f) =>
@@ -121,16 +121,19 @@ export default function RegionSelectionPage() {
       feature.properties.name,
       feature.properties.mahalleId
     );
-
+    console.log("RAW:", feature.properties);
+    console.log("META:", meta);
+    
     if (!meta) {
       console.warn("محله در config پیدا نشد:", feature.properties.name);
       return;
     }
-
+    
     setSelectedMeta(meta);
     setShowMahalleModal(true);
   };
 
+  
   // برای دسکتاپ → hover / برای موبایل → کلیک
   const activeRegion =
     isHoverSupported && hoveredRegion ? hoveredRegion : selectedRegion;
@@ -170,6 +173,7 @@ export default function RegionSelectionPage() {
         open={showIntroModal}
         onStartMap={() => setShowIntroModal(false)}
       />
+
 
       {/* مدال لوکس اطلاعات محله (Glassmorphism) */}
       <MahalleModal

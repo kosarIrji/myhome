@@ -2,6 +2,7 @@
 
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link"; // ✅ برای prefetch مخفی
 
 interface MahalleMeta {
   title: string;
@@ -21,6 +22,13 @@ interface Props {
 export default function MahalleModal({ open, onClose, meta }: Props) {
   const router = useRouter();
 
+///prefech urls
+  useEffect(() => {
+    if (meta?.url) {
+      router.prefetch(meta.url);
+    }
+  }, [meta?.url]);
+  
   // ESC برای بستن
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -57,6 +65,18 @@ export default function MahalleModal({ open, onClose, meta }: Props) {
           <h2 className="text-xl font-extrabold text-white mb-4 text-center drop-shadow-[0_0_8px_rgba(56,189,248,0.6)]">
             {meta.title}
           </h2>
+
+          {/* ✅ لینک مخفی برای prefetch صفحه‌ی محله */}
+          {meta.url && (
+            <Link
+              href={meta.url}
+              prefetch
+              className="hidden"
+              aria-hidden="true"
+            >
+              prefetch
+            </Link>
+          )}
 
           {/* ردیف سه‌تایی اطلاعات پایه */}
           <div className="grid grid-cols-3 gap-4 text-center mb-5 text-sm">
@@ -115,27 +135,19 @@ export default function MahalleModal({ open, onClose, meta }: Props) {
           </p>
 
           {/* دکمه‌ها */}
-          <div className="flex flex-col sm:flex-row-reverse gap-3">
-
-            {/* دکمه بازگشت - شیشه‌ای ملایم */}
-            <button
-              onClick={onClose}
-              className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/20 bg-white/10 backdrop-blur-lg px-4 py-2 text-xs md:text-[13px] text-slate-100 hover:bg-white/20 hover:border-white/40 transition shadow-[0_0_15px_rgba(255,255,255,0.15)]"
-            >
-              {/* Glass Icon */}
-              <span>بازگشت به صفحه قبلی</span>
-              <div className="p-1 rounded-xl bg-white/10 backdrop-blur-md border border-white/20">
-                <svg width="16" height="16" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M15 8H3" />
-                  <path d="M7 4L3 8L7 12" />
-                </svg>
-                </div>
-            </button>
+          <div className="flex flex-col sm:flex-row gap-3">
             {/* دکمه اصلی - آبی هماهنگ با بکگراند */}
-            <button
-              onClick={() => router.push(meta.url)}
+            <Link
+
+            //بستن مودال برای بهبود سرعت
+            onClick={() => {
+              onClose(); // ابتدا مودال بسته شود
+              setTimeout(() => router.push(meta.url), 50); // بعد ناوبری
+            }}
+              href={meta.url}
+              prefetch
               className="
-                flex-1 py-2.5 rounded-2xl font-semibold
+                flex-1 py-2.5 rounded-2xl font-semibold text-center
                 bg-sky-800/80 text-white
                 shadow-[0_0_18px_rgba(56,189,248,0.6)]
                 hover:bg-sky-600 border-white/25
@@ -145,6 +157,30 @@ export default function MahalleModal({ open, onClose, meta }: Props) {
               "
             >
               مشاهده جزئیات محله
+            </Link>
+
+
+            {/* دکمه بازگشت - شیشه‌ای ملایم */}
+            <button
+              onClick={onClose}
+              className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/20 bg-white/10 backdrop-blur-lg px-4 py-2 text-xs md:text-[13px] text-slate-100 hover:bg-white/20 hover:border-white/40 transition shadow-[0_0_15px_rgba(255,255,255,0.15)]"
+            >
+              {/* Glass Icon */}
+              <span>بازگشت به صفحه قبلی</span>
+              <div className="p-1 rounded-xl bg-white/10 backdrop-blur-md border border-white/20">
+                <svg
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M15 8H3" />
+                  <path d="M7 4L3 8L7 12" />
+                </svg>
+              </div>
             </button>
           </div>
         </div>

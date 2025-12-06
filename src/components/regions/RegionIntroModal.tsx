@@ -42,11 +42,12 @@ const RegionIntroModal: React.FC<RegionIntroModalProps> = ({ open, onStartMap })
           </p>
 
           {/* Buttons */}
-          <div className="mt-7 flex flex-col-reverse gap-3 sm:flex-row sm:justify-between sm:items-center">
-
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
 
             {/* Start Button */}
             <button
+           
+            
               onClick={onStartMap}
               className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-l from-yellow-300 via-amber-400 to-yellow-300 px-5 py-2 text-xs md:text-[13px] font-semibold text-slate-900 shadow-[0_0_28px_rgba(250,204,21,0.55)] hover:brightness-110 transition"
             >
@@ -75,6 +76,7 @@ const RegionIntroModal: React.FC<RegionIntroModalProps> = ({ open, onStartMap })
                 </svg>
               </div>
             </button>
+
           </div>
         </div>
       </div>
