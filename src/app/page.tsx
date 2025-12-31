@@ -2,7 +2,11 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import type { RegionGeoJSON, RegionResponse, RegionFeature } from "@/types/region";
+import type {
+  RegionGeoJSON,
+  RegionResponse,
+  RegionFeature,
+} from "@/types/region";
 import { getMahalleMeta } from "@/config/mahallat";
 import RegionIntroModal from "@/components/regions/RegionIntroModal";
 import MahalleModal from "@/components/regions/MahalleModal";
@@ -14,13 +18,13 @@ const mahalleGroupMap: Record<string, { title: string; logicalId: number }> = {
     title: "هفده شهریور ",
     logicalId: 1001,
   },
-  "کلانتری11": {
+  کلانتری11: {
     title: "هفده شهریور ",
     logicalId: 1001,
   },
 
   // گروه 2: شهید بهشتی شمالی
-  "پورآدینه": {
+  پورآدینه: {
     title: "شهید بهشتی ",
     logicalId: 1002,
   },
@@ -41,9 +45,14 @@ export default function RegionSelectionPage() {
   const [regions, setRegions] = useState<RegionGeoJSON | null>(null);
   const [clickableIds, setClickableIds] = useState<number[]>([]);
 
-  const [selectedRegion, setSelectedRegion] = useState<RegionFeature | null>(null);
-  const [hoveredRegion, setHoveredRegion] = useState<RegionFeature | null>(null);
+  const [selectedRegion, setSelectedRegion] = useState<RegionFeature | null>(
+    null
+  );
+  const [hoveredRegion, setHoveredRegion] = useState<RegionFeature | null>(
+    null
+  );
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [selectedMeta, setSelectedMeta] = useState<any | null>(null);
   const [showMahalleModal, setShowMahalleModal] = useState(false);
 
@@ -51,6 +60,10 @@ export default function RegionSelectionPage() {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  interface CSSVar extends React.CSSProperties {
+    [key: `--${string}`]: string | number;
+  }
 
   // تشخیص پشتیبانی Hover (دسکتاپ / موبایل)
   useEffect(() => {
@@ -84,8 +97,8 @@ export default function RegionSelectionPage() {
               geometry: r.geometry,
               properties: {
                 id: r.id,
-                name: displayName,     // ✅ هفده شهریور شمالی / شهید بهشتی شمالی / ...
-                mahalleId: logicalId,  // ✅ شناسه منطقی گروه یا همان mahalle_ID قبلی
+                name: displayName, // ✅ هفده شهریور شمالی / شهید بهشتی شمالی / ...
+                mahalleId: logicalId, // ✅ شناسه منطقی گروه یا همان mahalle_ID قبلی
                 parcelsCount: r.properties.tdad_qtaat,
                 shapeArea: r.properties.Shape_Area,
               },
@@ -94,7 +107,7 @@ export default function RegionSelectionPage() {
         };
 
         setRegions(geojson);
-        
+
         // فقط محله‌هایی که در config/mahallat تعریف شده‌اند، کلیک‌پذیر باشند
         const ids = geojson.features
           .filter((f) =>
@@ -103,6 +116,7 @@ export default function RegionSelectionPage() {
           .map((f) => f.properties.id);
 
         setClickableIds(ids);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         setError(err.message || "Error");
       } finally {
@@ -113,6 +127,9 @@ export default function RegionSelectionPage() {
     fetchRegions();
   }, []);
 
+
+
+  
   // بعد از انتخاب محله روی نقشه → مدال اطلاعات باز شود
   const handleRegionClick = (feature: RegionFeature) => {
     setSelectedRegion(feature);
@@ -123,17 +140,16 @@ export default function RegionSelectionPage() {
     );
     console.log("RAW:", feature.properties);
     console.log("META:", meta);
-    
+
     if (!meta) {
       console.warn("محله در config پیدا نشد:", feature.properties.name);
       return;
     }
-    
+
     setSelectedMeta(meta);
     setShowMahalleModal(true);
   };
 
-  
   // برای دسکتاپ → hover / برای موبایل → کلیک
   const activeRegion =
     isHoverSupported && hoveredRegion ? hoveredRegion : selectedRegion;
@@ -141,25 +157,45 @@ export default function RegionSelectionPage() {
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-[#0B1220]">
       {/* پس‌زمینه نئونی هومینکس */}
-      <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,_rgba(0,255,255,0.06),_rgba(13,34,56,1)_80%)]" />
+      <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,rgba(0,255,255,0.06),rgba(13,34,56,1)_10%)]" />
 
       {/* نقشه شیشه‌ای */}
       <div className="absolute inset-4 z-0 rounded-2xl overflow-hidden glass-map-container glass-map-neon">
+        {/* ======================= LOADER (همیشه قابل نمایش) ======================= */}
         {loading && (
-          <div className="flex h-full w-full items-center justify-center text-slate-300 text-sm">
-            در حال بارگذاری نقشه محلات...
+          <div className="fixed inset-0 z-300 flex items-center justify-center bg-black/60 backdrop-blur">
+            <div className="cube-loader">
+              <div className="cube-top"></div>
+              <div className="cube-wrapper">
+                <span
+                  className="cube-span"
+                  style={{ "--i": 0 } as CSSVar}
+                ></span>
+                <span
+                  className="cube-span"
+                  style={{ "--i": 1 } as CSSVar}
+                ></span>
+                <span
+                  className="cube-span"
+                  style={{ "--i": 2 } as CSSVar}
+                ></span>
+                <span
+                  className="cube-span"
+                  style={{ "--i": 3 } as CSSVar}
+                ></span>
+              </div>
+            </div>
           </div>
         )}
-
         {error && !loading && (
           <div className="flex h-full w-full items-center justify-center text-red-300 text-sm">
             خطا در دریافت اطلاعات محلات
           </div>
         )}
-
-        {regions && !loading && !error && (
+        {/* // در بخش رندر صفحه اصلی: */}
+        {regions && (
           <RegionMap
-            regions={regions}
+            regions={regions} // حالا نام‌ها یکی هستند
             activeId={activeRegion?.properties.id ?? null}
             clickableIds={clickableIds}
             onRegionClick={handleRegionClick}
@@ -173,7 +209,6 @@ export default function RegionSelectionPage() {
         open={showIntroModal}
         onStartMap={() => setShowIntroModal(false)}
       />
-
 
       {/* مدال لوکس اطلاعات محله (Glassmorphism) */}
       <MahalleModal

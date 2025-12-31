@@ -40,3 +40,26 @@
   pointer-events: none;
   z-index: 998;
 }
+.label-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.label-wrapper {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+}
+
+.pixel-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow:
+    0 0 5px rgba(0,0,0,0.8),
+    0 0 10px rgba(255,255,255,0.45);
+}

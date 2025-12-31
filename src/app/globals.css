@@ -3,7 +3,7 @@
 @import "leaflet/dist/leaflet.css";
 
 @import "../styles/region-glow.css";
-       
+
 @import "../styles/modal.css";
 
 /* small app-level styles */
@@ -14,20 +14,17 @@ body,
   direction: rtl;
   text-align: right;
   font-family: "Modam";
- 
 }
 .leaflet-container {
   background: transparent !important;
-
 }
 /* کانتینر شیشه‌ای نقشه */
 .glass-map-container {
   backdrop-filter: blur(40px) saturate(180%);
   -webkit-backdrop-filter: blur(40px) saturate(180%);
-  background:
-    radial-gradient(
+  background: radial-gradient(
       ellipse at center,
-      rgba(255, 255, 255, 0.10) 0%,
+      rgba(255, 255, 255, 0.1) 0%,
       rgba(255, 255, 255, 0.05) 100%
     ),
     linear-gradient(
@@ -36,8 +33,7 @@ body,
       rgba(74, 144, 226, 0.14) 100%
     );
   border: 1px solid rgba(255, 255, 255, 0.22);
-  box-shadow:
-    0 8px 32px 0 rgba(31, 38, 135, 0.37),
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37),
     inset 0 0 0 1px rgba(255, 255, 255, 0.08);
   border-radius: 24px;
   overflow: hidden;
@@ -45,37 +41,45 @@ body,
 
 /* تاکید نئونی روی قاب (در صورت نیاز) */
 .glass-map-neon {
-  box-shadow:
-    0 0 10px rgba(59, 130, 246, 0.5),
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5),
     inset 0 0 10px rgba(59, 130, 246, 0.12);
 }
-
-/* نقاط/لیبل‌های درخشان */
-.glow-marker {
-  filter: drop-shadow(0 0 8px rgba(74, 144, 226, 0.7));
-}
+/* ۱. پس‌زمینه اصلی (بدون تغییر) */
 .hominex-bg {
-  background:
-    radial-gradient(
+  background: radial-gradient(
       circle at 30% 40%,
       rgba(0, 246, 255, 0.18),
       rgba(11, 18, 32, 1) 60%
     ),
     radial-gradient(
       circle at 70% 80%,
-      rgba(255, 223, 0, 0.12),
+      rgba(255, 223, 0, 0.3),
       rgba(11, 18, 32, 1) 70%
     ),
-    linear-gradient(
-      160deg,
-      #0B1220 0%,
-      #0D1A2C 40%,
-      #0B1220 100%
-    );
+    linear-gradient(160deg, #0b1220 0%, #0d1a2c 40%, #0b1220 100%);
 }
 
+/* ۲. لیبل‌های نقشه (بهینه شده) */
+.pixel-label {
+  color: white;
+  font-size: 12px;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 15px rgba(255, 223, 0, 0.5);
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  pointer-events: none;
+  will-change: transform, opacity; /* برای نرم‌تر شدن انیمیشن در هنگام جابجایی نقشه */
+}
 
+.pixel-label.active {
+  font-weight: bold;
+  font-size: 14px;
+  color: #eee6b5;
+}
 
+/* ۳. تعاملات نقشه (فقط یکبار) */
+.leaflet-interactive {
+  cursor: pointer !important;
+}
 
 /* roots */
 :root {
@@ -89,4 +93,59 @@ body,
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --BoxColor: var(--box);
+} /* //////////////////////////-----spiner-----------//////////////////////////// */
+.cube-loader {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  transform-style: preserve-3d;
+  animation: cube-rotate 2s infinite ease-in-out;
+}
+
+.cube-top {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #00b4ff, #0080ff); /* آبی نیونی */
+  transform: rotateX(90deg) translateZ(30px);
+  border-radius: 6px;
+  box-shadow: 0 0 35px rgba(0, 180, 255, 0.9); /* سایه آبی */
+}
+
+.cube-wrapper {
+  width: 60px;
+  height: 60px;
+  transform-style: preserve-3d;
+}
+
+.cube-span {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(0, 180, 255, 0.6); /* حاشیه آبی */
+  border-radius: 6px;
+  background: rgba(0, 180, 255, 0.15); /* پس‌زمینه آبی */
+  backdrop-filter: blur(4px);
+  transform: rotateY(calc(var(--i) * 90deg)) translateZ(30px);
+  box-shadow: 0 0 30px rgba(0, 180, 255, 0.7); /* سایه آبی */
+}
+
+/* انیمیشن چرخش سه‌بعدی */
+@keyframes cube-rotate {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: rotateX(180deg) rotateY(180deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(360deg);
+  }
+}
+
+:root {
+  --prim: #238fab;
+  --sec: #232323;
+  --secBlue: #000e1f;
+  --back: #353535;
 }
